@@ -5,20 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Room Information</title>
   <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    #individual-room {
-      border: 1px solid #ddd;
-      padding: 8px;
-      margin-top: 10px;
-    }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  #individual-room {
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin-top: 10px;
+  }
+  #individual-room table {
+    margin-bottom: 20px;
+  }
+
+  .student-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.student-details-container {
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin: 10px;
+  min-width: 200px;
+}
+
   </style>
 </head>
 <body>
@@ -63,12 +80,80 @@ async function fetchAllRooms() {
   }
 }
 
-    async function fetchIndividualRoom() {
-      const roomNumber = document.getElementById('room-select').value;
-      const response = await fetch('/api/rooms/number/' + roomNumber);
-      const room = await response.json();
-      document.getElementById('individual-room').innerText = JSON.stringify(room, null, 2);
-    }
+async function fetchIndividualRoom() {
+  const roomNumber = document.getElementById('room-select').value;
+  const response = await fetch('/api/rooms/number/' + roomNumber);
+  const room = await response.json();
+
+  const container = document.getElementById('individual-room');
+  container.innerHTML = ''; // Clear previous content
+
+  // Create and populate the room details table
+  const table = document.createElement('table');
+  const headerRow = table.insertRow(-1);
+  headerRow.insertCell(0).innerText = 'Room Number';
+  headerRow.insertCell(1).innerText = 'Room Status';
+  headerRow.insertCell(2).innerText = 'Admin Notes';
+  headerRow.insertCell(3).innerText = 'Room Notes';
+  headerRow.insertCell(4).innerText = 'Assignees';
+
+  const row = table.insertRow(-1);
+  row.insertCell(0).innerText = room.room_number;
+  row.insertCell(1).innerText = room.room_status;
+  row.insertCell(2).innerText = room.admin_notes;
+  row.insertCell(3).innerText = room.room_notes;
+  row.insertCell(4).innerText = room.assignees.join(', ');
+
+  container.appendChild(table);
+
+  // Fetch student data by their IDs
+  const studentResponse = await fetch('/api/students', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ ids: room.assignees })
+});
+  const students = await studentResponse.json();
+
+  const studentsContainer = document.createElement('div');
+  studentsContainer.classList.add('student-container');
+  studentsContainer.style.marginTop = '20px';
+  container.appendChild(studentsContainer);
+
+  for (const student of students) {
+    // Create a button to toggle student details
+    const button = document.createElement('button');
+    button.innerText = student.pratt_id;
+    button.style.marginRight = '10px';
+    button.style.marginBottom = '10px';
+
+    // Create a div to hold student details
+    const studentDetails = document.createElement('div');
+    studentDetails.innerText = formatStudentData(student);
+    studentDetails.style.display = 'none';
+
+    button.addEventListener('click', () => {
+      studentDetails.style.display = studentDetails.style.display === 'none' ? 'block' : 'none';
+    });
+
+    const studentDetailsContainer = document.createElement('div');
+    studentDetailsContainer.classList.add('student-details-container');
+
+    studentDetailsContainer.appendChild(button);
+    studentDetailsContainer.appendChild(studentDetails);
+
+    studentsContainer.appendChild(studentDetailsContainer);
+  }
+}
+
+function formatStudentData(student) {
+  return `Pratt ID: ${student.pratt_id}
+First Name: ${student.first_name}
+Last Name: ${student.last_name}
+Email: ${student.email}
+Admin Notes: ${student.admin_notes}`
+}
 
     fetchAllRooms();
   </script>
