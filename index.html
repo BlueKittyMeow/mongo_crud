@@ -66,7 +66,11 @@ async function fetchAllRooms() {
   for (const room of rooms) {
     // Add room to the table
     const row = table.insertRow(-1);
-    row.insertCell(0).innerText = room.room_number;
+    const roomNumberCell = row.insertCell(0);
+roomNumberCell.innerText = room.room_number;
+roomNumberCell.style.cursor = 'pointer';
+roomNumberCell.addEventListener('click', () => openEditRoomPage(room.room_number));
+
     row.insertCell(1).innerText = room.room_status;
     row.insertCell(2).innerText = room.admin_notes;
     row.insertCell(3).innerText = room.room_notes;
@@ -155,7 +159,16 @@ Email: ${student.email}
 Admin Notes: ${student.admin_notes}`
 }
 
+
+
+
+
     fetchAllRooms();
-  </script>
+
+    function openEditRoomPage(roomNumber) {
+    window.open('edit-room.html?room_number=' + encodeURIComponent(roomNumber), '_blank');
+}
+
+</script>
 </body>
 </html>

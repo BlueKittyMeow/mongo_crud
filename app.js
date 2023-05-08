@@ -55,6 +55,22 @@ function isValidObjectId(id) {
   return /^[0-9a-fA-F]{24}$/.test(id);
 }
 
+//API endpoint for updating room data
+app.put('/api/rooms/number/:room_number', async (req, res) => {
+  try {
+      const { room_number } = req.params;
+      const { room_status, admin_notes, room_notes } = req.body;
+
+      const roomsCollection = client.db("CirculationApp").collection("spaces");
+      await roomsCollection.updateOne({ room_number: room_number }, { $set: { room_status, admin_notes, room_notes } });
+
+      res.sendStatus(200);
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal server error');
+  }
+});
+
 
 // API endpoint for fetching student data by IDs
 app.post('/api/students', async (req, res) => {
