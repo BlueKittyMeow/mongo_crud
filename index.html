@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room Information</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>Room Information</h1>
+  <h2>All Rooms</h2>
+  <table id="rooms-table">
+    <tr>
+      <th>Room Number</th>
+      <th>Room Status</th>
+      <th>Admin Notes</th>
+      <th>Room Notes</th>
+      <th>Assignees</th>
+    </tr>
+  </table>
+  <h2>Individual Room Details</h2>
+  <label for="room-select">Select a room:</label>
+  <select id="room-select">
+    <option value="">--Please choose a room--</option>
+  </select>
+  <button id="fetch-room-btn">Fetch Room Details</button>
+  <div id="room-details"></div>
+  <script>
+    async function fetchData(url) {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+      return await response.json();
+    }
+
+    async function fetchRooms() {
+      const rooms = await fetchData('/api/rooms');
+      const table = document.getElementById('rooms-table');
+      const select = document.getElementById('room-select');
+
+      rooms.forEach(room => {
+        const row = table.insertRow(-1);
+        row.insertCell(-1).innerText = room.room_number;
+        row.insertCell(-1).innerText = room.room_status;
+        row.insertCell(-1).innerText = room.admin_notes;
+        row.insertCell(-1).innerText = room.room_notes;
+        row.insertCell(-1).innerText = room.assignees.join(', ');
+
+        const option = document.createElement('option');
+        option.value = room._id;
+        option.innerText = room.room_number;
+        select.appendChild(option);
+      });
+    }
+
+    document.getElementById('fetch-room-btn').addEventListener('click', async () => {
+      const select = document.getElementById('room-select');
+      const roomId = select.value;
+      if (!roomId) return;
+
+      const room = await fetchData(`/api/rooms/${roomId}`);
+      const detailsDiv = document.getElementById('room-details');
+      detailsDiv.innerHTML = `
+        <h3>${room.room_number}</h3>
+        <p>Room Status: ${room.room_status}</p>
+        <p>Admin Notes: ${room.admin_notes}</p>
+        <p>Room Notes: ${room.room_notes}</p>
+        <p>Assignees: ${room.assignees.join(', ')}</p>
+      `;
+    });
+
+    fetchRooms();
+  </script>
+</body>
+</html>

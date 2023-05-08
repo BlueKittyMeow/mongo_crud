@@ -1,0 +1,128 @@
+[
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-04",
+    "room_status": "Okay",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-05",
+    "room_status": "Infraction",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-06",
+    "room_status": "Infraction",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-07",
+    "room_status": "Infraction",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-08",
+    "room_status": "Okay",
+    "admin_notes": "",
+    "room_notes": "Int. Block",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-09",
+    "room_status": "Okay",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-10",
+    "room_status": "Infraction",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-11",
+    "room_status": "Infraction",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-12",
+    "room_status": "Okay",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-13",
+    "room_status": "Okay",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-14",
+    "room_status": "Okay",
+    "admin_notes": "",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-15",
+    "room_status": "Infraction",
+    "admin_notes": "",
+    "room_notes": "Int. Block",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-16",
+    "room_status": "Admin",
+    "admin_notes": "(remove foil) - students okay",
+    "room_notes": "",
+    "assignees": []
+  },
+  {
+    "type": "Graduate Studio",
+    "floor": 5,
+    "room_number": "5W-19",
+    "room_status": "Okay",
+    "admin_notes": "",
+    "room_notes": "Int. Block",
+    "assignees": []
+  }
+]
