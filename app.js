@@ -1,4 +1,3 @@
-console.log('Starting app.js');
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const path = require('path');
@@ -6,10 +5,8 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-app.use(express.static(path.join(__dirname, '.')));
-
 // Connect to MongoDB
-const uri = "mongodb://localhost:27017"; // Replace with your MongoDB connection URI
+const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 
 async function connectToDB() {
@@ -23,12 +20,28 @@ async function connectToDB() {
 
 connectToDB();
 
+// Serve static files
+app.use(express.static(path.join(__dirname, '.')));
+
 // API endpoint for fetching room data
 app.get('/api/rooms', async (req, res) => {
   try {
     const roomsCollection = client.db("CirculationApp").collection("spaces");
     const rooms = await roomsCollection.find({}).toArray();
     res.json(rooms);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+});
+
+// API endpoint for fetching room data by room number
+app.get('/api/rooms/number/:room_number', async (req, res) => {
+  try {
+    const { room_number } = req.params;
+    const roomsCollection = client.db("CirculationApp").collection("spaces");
+    const room = await roomsCollection.findOne({ room_number: room_number });
+    res.json(room);
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal server error');
