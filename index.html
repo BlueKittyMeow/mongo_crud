@@ -24,32 +24,50 @@
   }
 
   .student-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-}
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
 
-.student-details-container {
-  border: 1px solid #ddd;
-  padding: 8px;
-  margin: 10px;
-  min-width: 200px;
-}
+  .student-details-container {
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin: 10px;
+    min-width: 200px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .rooms-table-container {
+    width: 50%;
+  }
+
+  #room-details-container {
+    width: 50%;
+  }
 
   </style>
 </head>
 <body>
   <h1>Room Information</h1>
-  <h2>All Rooms</h2>
-  <table id="rooms-table">
-    <tr>
-      <th>Room Number</th>
-      <th>Room Status</th>
-      <th>Admin Notes</th>
-      <th>Room Notes</th>
-      <th>Assignees</th>
-    </tr>
-  </table>
+  <div class="container">
+    <div class="rooms-table-container">
+      <h2>All Rooms</h2>
+      <table id="rooms-table">
+        <tr>
+          <th>Room Number</th>
+          <th>Room Status</th>
+          <th>Admin Notes</th>
+          <th>Room Notes</th>
+          <th>Assignees</th>
+        </tr>
+      </table>
+    </div>
+    <div id="room-details-container"></div>
+  </div>
   <h2>Individual Room Details</h2>
   <label for="room-select">Select a room:</label>
   <select id="room-select" onchange="fetchIndividualRoom()">
@@ -159,15 +177,22 @@ Email: ${student.email}
 Admin Notes: ${student.admin_notes}`
 }
 
-
-
-
-
     fetchAllRooms();
 
-    function openEditRoomPage(roomNumber) {
-    window.open('edit-room.html?room_number=' + encodeURIComponent(roomNumber), '_blank');
-}
+    async function openEditRoomPage(roomNumber) {
+      const container = document.getElementById('room-details-container');
+      const response = await fetch('edit-room.html');
+      const html = await response.text();
+      container.innerHTML = html;
+
+      const script = document.createElement('script');
+      script.src = 'edit-room.js';
+      document.body.appendChild(script);
+
+      setTimeout(() => {
+        window.showEditRoom(roomNumber);
+      }, 100);
+    }
 
 </script>
 </body>

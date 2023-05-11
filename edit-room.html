@@ -13,11 +13,36 @@
             width: 100%;
             padding: 4px;
         }
-    </style>
+
+.hidden {
+  display: none;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+</style>
+
+
+
 </head>
 <body>
-    <h1>Edit Room</h1>
-    <form id="edit-room-form">
+    <div class="top-bar">
+      <h1 id="page-title">Room Details</h1>
+      <div>
+        <button id="edit-button">Edit Record</button>
+        <button id="cancel-button" class="hidden">Cancel</button>
+        <button onclick="window.location.href = 'index.html';">Home</button>
+      </div>
+    </div>
+    <div id="room-details">
+      <!-- Room details will be populated here -->
+    </div>
+
+    <form id="edit-room-form" class="hidden">
         <label for="room_number">Room Number:</label>
         <input type="text" id="room_number" name="room_number" readonly>
         <label for="room_status">Room Status:</label>
@@ -28,48 +53,8 @@
         <input type="text" id="room_notes" name="room_notes">
         <button type="submit">Submit</button>
     </form>
-    <script>
-        async function fetchRoomData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const roomNumber = urlParams.get('room_number');
 
-            const response = await fetch('/api/rooms/number/' + roomNumber);
-            const room = await response.json();
+    <script src="edit-room.js"></script>
 
-            document.getElementById('room_number').value = room.room_number;
-            document.getElementById('room_status').value = room.room_status;
-            document.getElementById('admin_notes').value = room.admin_notes;
-            document.getElementById('room_notes').value = room.room_notes;
-        }
-
-        document.getElementById('edit-room-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const roomNumber = document.getElementById('room_number').value;
-            const roomStatus = document.getElementById('room_status').value;
-            const adminNotes = document.getElementById('admin_notes').value;
-            const roomNotes = document.getElementById('room_notes').value;
-
-            const response = await fetch('/api/rooms/number/' + roomNumber, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    room_status: roomStatus,
-                    admin_notes: adminNotes,
-                    room_notes: roomNotes
-                })
-            });
-
-            if (response.ok) {
-                alert('Room data updated successfully');
-            } else {
-                alert('Error updating room data');
-            }
-        });
-
-        fetchRoomData();
-    </script>
 </body>
 </html>
