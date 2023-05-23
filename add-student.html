@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Student</title>
+  <script src="add-student.js"></script>
+</head>
+<body>
+    <form onsubmit="onSubmit(event)">
+        <label for="first_name">First Name:</label><br>
+        <input type="text" id="first_name" name="first_name"><br>
+        <label for="legal_first_name">Legal First Name:</label><br>
+        <input type="text" id="legal_first_name" name="legal_first_name"><br>
+        <label for="last_name">Last Name:</label><br>
+        <input type="text" id="last_name" name="last_name"><br>
+        <label for="department">Department:</label><br>
+        <input type="text" id="department" name="department" value="DDA"><br>
+        <label for="pratt_id">Pratt ID:</label><br>
+        <input type="text" id="pratt_id" name="pratt_id"><br>
+        <label for="student_category">Student Category:</label><br>
+        <select id="student_category" name="student_category">
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="Graduate">Graduate</option>
+        </select><br>
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email"><br>
+        <label for="sw_status">Current Student Worker (check box if yes):</label><br>
+        <input type="checkbox" id="sw_status" name="sw_status" value="true"><br>
+        <label for="rc_status">Resource Center Borrowing Status:</label><br>
+        <input type="text" id="rc_status" name="rc_status"><br>
+        <label for="admin_notes">Admin Notes:</label><br>
+        <input type="text" id="admin_notes" name="admin_notes"><br>
+        <label for="courses">Courses:</label><br>
+        <input type="text" id="courses" name="courses"><br>
+        <label for="approvals">Approvals:</label><br>
+        <input type="text" id="approvals" name="approvals"><br>
+    
+        <input type="submit" value="Submit">
+    </form>
+    
+      
+</body>
+</html>

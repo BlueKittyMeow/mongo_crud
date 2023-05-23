@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Room</title>
+  <script src="/add-room.js"></script>
+</head>
+<body>
+  <h1>Add a Room</h1>
+  <form id="add-room-form" onsubmit="onSubmit(event)">
+
+    <label for="room_number">Room Number:</label><br>
+    <input type="text" id="room_number" name="room_number"><br>
+
+    <label for="type">Type:</label><br>
+    <select id="type" name="type"></select><br>
+    
+
+    <label for="floor">Floor:</label><br>
+    <select name="floor" id="floor">
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+<br>
+
+    <label for="admin_notes">Admin Notes:</label><br>
+    <input type="text" id="admin_notes" name="admin_notes"><br>
+
+
+
+    <label for="room_notes">Room Notes:</label><br>
+    <input type="text" id="room_notes" name="room_notes"><br>
+
+
+
+    <label for="room_status">Room Status:</label><br>
+    <input type="text" id="room_status" name="room_status"><br>
+
+
+
+    <input type="submit" value="Create Room">
+  </form>
+
+  
+  <div id="add-assignees" style="display: none;">
+    <h2>Add Assignees</h2>
+    <label for="search_type">Search by:</label><br>
+    <select id="search_type" name="search_type">
+      <option value="id">ID</option>
+      <option value="email">Email</option>
+      <option value="name">Name</option>
+    </select><br>
+
+    <label for="search_term">Search Term:</label><br>
+    <input type="text" id="search_term" name="search_term"><br>
+
+    <button onclick="searchStudents()">Search</button>
+
+    <h3>Search Results</h3>
+    <div id="search_results"></div>
+
+    <div id="assigned_students">
+        <!-- Assigned students will be displayed here. -->
+    </div>
+
+  </div>
+</body>
+</html>

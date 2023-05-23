@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Add Room</title>
+</head>
+<body>
+    <div id="header-container">
+        <!-- The header will be inserted here -->
+    </div>
+
+    <div id="main-content">
+        <div id="left-panel" style="width: 100%;">
+            <!-- Content for the left panel goes here -->
+            Add Room
+
+
+
+
+        </div>
+
+        <div id="right-panel">
+            <!-- Content for the right panel goes here -->
+        </div>
+    </div>
+
+    <div id="footer">
+        <!-- Additional information goes here -->
+    </div>
+
+    <!-- Add the script to insert the header -->
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+            });
+    </script>
+</body>
+</html>
