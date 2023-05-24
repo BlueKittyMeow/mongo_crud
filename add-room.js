@@ -1,3 +1,11 @@
+function initAddRoomPage() {
+  // Add code here to initialize the page
+}
+
+// Call the init function when the page is loaded
+window.onload = initAddRoomPage;
+
+
 async function populateRoomTypes() {
     const response = await fetch('/api/room_types');
     const roomTypes = await response.json();

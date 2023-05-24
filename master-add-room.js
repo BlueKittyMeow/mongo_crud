@@ -13,7 +13,10 @@ window.onload = async function() {
     const script = document.createElement('script');
     script.src = "/add-room.js";
     document.body.appendChild(script);
-  
+
+    // Call the init function in add-room.js to initialize the page
+    initAddRoomPage();    
+
     // You might want to add a placeholder to the right panel
     rightPanel.innerHTML = "<p>Room details will appear here.</p>";
   }

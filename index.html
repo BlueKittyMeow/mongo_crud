@@ -83,7 +83,8 @@
     <option value="">--Please choose a room--</option>
   </select>
   <div id="individual-room"></div>
-  <script>
+ 
+ <script>
 async function fetchAllRooms() {
   const response = await fetch('/api/rooms');
   const rooms = await response.json();
