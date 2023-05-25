@@ -49,7 +49,7 @@ app.get('/api/rooms/number/:room_number', async (req, res) => {
       return;
     }
 
-    const studentIds = room.assignees.map(id => ObjectId(id));
+    const studentIds = room.assignees.map(id => new ObjectId(id));
     const students = await studentsCollection.find({ _id: { $in: studentIds } }).toArray();
 
     // Add students data to the room data
