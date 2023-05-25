@@ -1,0 +1,11 @@
+#main-content {
+    display: flex;
+}
+
+#left-panel {
+    flex-grow: 1;
+}
+
+#right-panel {
+    flex-grow: 1;
+}
