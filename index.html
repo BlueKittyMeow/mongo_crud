@@ -85,19 +85,27 @@
   <div id="individual-room"></div>
  
  <script>
+
+window.onload = async () => {
+  await fetchAllRooms();
+};
+
 async function fetchAllRooms() {
   const response = await fetch('/api/rooms');
   const rooms = await response.json();
 
   const table = document.getElementById('rooms-table');
+  const tableBody = document.createElement('tbody');
+  table.appendChild(tableBody);
   const select = document.getElementById('room-select');
   for (const room of rooms) {
     // Add room to the table
-    const row = table.insertRow(-1);
+    const row = tableBody.insertRow();
     const roomNumberCell = row.insertCell(0);
-roomNumberCell.innerText = room.room_number;
-roomNumberCell.style.cursor = 'pointer';
-roomNumberCell.addEventListener('click', () => openEditRoomPage(room.room_number));
+    roomNumberCell.innerText = room.room_number;
+    roomNumberCell.style.cursor = 'pointer';
+
+    roomNumberCell.addEventListener('click', () => openEditRoomPage(room.room_number));
 
     row.insertCell(1).innerText = room.room_status;
     row.insertCell(2).innerText = room.admin_notes;
