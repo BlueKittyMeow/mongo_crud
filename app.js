@@ -1,16 +1,29 @@
 const express = require('express');
-const { MongoClient, ObjectId } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
-
-
+const HttpsProxyAgent = require('https-proxy-agent');
 
 const app = express();
 app.use(express.json());
 const port = 3000;
 
-// Connect to MongoDB
-const uri = "mongodb://localhost:27017";
-const client = new MongoClient(uri);
+// Get your QuotaGuard URL from the environment variable
+const QGTunnel = process.env.QUOTAGUARDSTATIC_URL;
+const agent = new HttpsProxyAgent(QGTunnel);
+
+// Get the MongoDB URI from the environment variable
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  // Use the HttpsProxyAgent
+  agent
+});
 
 async function connectToDB() {
   try {
@@ -27,6 +40,7 @@ connectToDB();
 function getCollection(name) {
   return client.db("CirculationApp").collection(name);
 }
+
 
 // Serve static files
 app.use(express.static(path.join(__dirname, '.')));
