@@ -1,7 +1,14 @@
+process.on('uncaughtException', function (err) {
+  console.error(err);
+  console.log("Node NOT Exiting...");
+});
+
+
 const express = require('express');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
-const HttpsProxyAgent = require('https-proxy-agent');
+const HttpsProxyAgent = require('https-proxy-agent').default;
+
 
 const app = express();
 app.use(express.json());
