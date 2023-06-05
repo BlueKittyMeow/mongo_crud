@@ -5,6 +5,8 @@ const HttpsProxyAgent = require('https-proxy-agent');
 
 const app = express();
 app.use(express.json());
+app.use(express.static(__dirname));
+
 const port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log('App is running on http://localhost:' + port);
