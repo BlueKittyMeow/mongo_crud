@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>End of Semester Room Update</title>
+</head>
+<body>
+    <div id="header-container">
+        <!-- The header will be inserted here -->
+    </div>
+
+    <div id="main-content">
+        <div id="left-panel" style="width: 100%;">
+            <!-- Content for the left panel goes here -->
+            End of Semester Room Update
+
+            <div id="end-of-semester-form">
+                <h2>End of Semester Room Update</h2>
+                <label for="room-select">Select Room:</label>
+                <select id="room-select">
+                    <!-- Options will be populated dynamically -->
+                </select>
+            
+                <label for="room-status">Room Status:</label>
+                <input type="text" id="room-status">
+            
+                <label for="admin-notes">Admin Notes:</label>
+                <textarea id="admin-notes"></textarea>
+            
+                <label for="room-notes">Room Notes:</label>
+                <textarea id="room-notes"></textarea>
+            
+                <button id="submit-update">Submit Update</button>
+            </div>
+            
+
+
+        </div>
+
+        <div id="right-panel">
+            <!-- Content for the right panel goes here -->
+        </div>
+    </div>
+
+    <div id="footer">
+        <!-- Additional information goes here -->
+    </div>
+
+    <!-- Add the script to insert the header -->
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+            });
+
+
+// Assuming you have fetched room data and populated the select dropdown
+const urlParams = new URLSearchParams(window.location.search);
+const roomNumber = urlParams.get('room');
+
+// Set the value of the select dropdown to the room number from the URL
+document.getElementById('room-select').value = roomNumber;
+
+
+    </script>
+</body>
+</html>
