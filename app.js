@@ -7,8 +7,8 @@ require('dotenv').config(); // Loads environment variables from a .env file into
 
 let port;  // Declare port as a global variable
 
-const express = require('express'); // Express.js is a web application framework for Node.js
-const Agent = require('socks-proxy-agent'); // Import socks-proxy-agent for SOCKS proxy connection
+const express = require('express'); // Express.js is a web <mark>app</mark>lication framework for Node.js
+const { SocksProxyAgent } = require('socks-proxy-agent'); // Import SocksProxyAgent from socks-proxy-agent
 const { MongoClient } = require('mongodb'); // Import MongoClient from mongodb
 const path = require('path'); // Import path module which provides utilities for working with file and directory paths
 
@@ -18,7 +18,7 @@ app.use(express.static(__dirname)); // Serve static files from the root director
 
 // Get your QuotaGuard URL from the environment variable
 const QGTunnel = process.env.QUOTAGUARDSTATIC_URL;
-const agent = new Agent(QGTunnel); // Create a SOCKS proxy agent with the QuotaGuard URL
+const agent = new SocksProxyAgent(QGTunnel); // Create a SOCKS proxy agent with the QuotaGuard URL
 
 // Get the MongoDB URI from the environment variable
 const uri = process.env.MONGODB_URI;
