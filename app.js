@@ -3,21 +3,18 @@ process.on('uncaughtException', function (err) {
   console.log("Node NOT Exiting...");
 });
 
+require('dotenv').config();
+
+let port;  // Declare port as a global variable
 
 const express = require('express');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
-const HttpsProxyAgent = require('https-proxy-agent').default;
-
+const { HttpsProxyAgent } = require('https-proxy-agent');
 
 const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
-
-const port = process.env.PORT || 3000;
-app.listen(port, function() {
-  console.log('App is running on http://localhost:' + port);
-});
 
 // Get your QuotaGuard URL from the environment variable
 const QGTunnel = process.env.QUOTAGUARDSTATIC_URL;
@@ -26,27 +23,24 @@ const agent = new HttpsProxyAgent(QGTunnel);
 // Get the MongoDB URI from the environment variable
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  // Use the HttpsProxyAgent
-  agent
+  useUnifiedTopology: true
 });
 
-async function connectToDB() {
+async function startServer() {
   try {
     await client.connect();
     console.log("Connected to MongoDB");
+    port = process.env.PORT || 3000;  // Use the PORT environment variable, or 3000 if PORT is not set
+    app.listen(port, () => {
+      console.log('App is running on http://localhost:' + port);
+    });
   } catch (err) {
     console.error(err);
   }
 }
 
-connectToDB();
+startServer();
 
 // Helper function to get a collection
 function getCollection(name) {
@@ -210,6 +204,3 @@ app.get('/api/room_types', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
-});
