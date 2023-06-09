@@ -73,7 +73,7 @@ app.get('/api/rooms/number/:room_number', async (req, res) => {
       return;
     }
 
-    const studentIds = room.currentAssignees.map(id => new ObjectId(id));
+    const studentIds = room.currentAssignees ? room.currentAssignees.map(id => new ObjectId(id)) : [];
     const students = await getCollection("students").find({ _id: { $in: studentIds } }).toArray();
 
     // Add students data to the room data

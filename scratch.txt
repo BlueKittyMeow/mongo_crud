@@ -1,0 +1,15 @@
+MONGODB_URI=mongodb+srv://llafosch:LXWTrOXHXPZG2CqA@circulationapp-dev.w8b693z.mongodb.net/?retryWrites=true&w=majority
+
+
+If you are connecting with a mongodb+srv URL 
+(eg: mongodb+srv://USERNAME:PASSWORD@cluster0.abc123.mongodb.net/DATABASE?option1=value1) 
+then you can lookup your cluster’s shards here: https://www.whatsmydns.net/dns-lookup/srv-records.
+
+Be sure to prepend your cluster address with mongodb._tcp 
+(_eg: _mongodb._tcp.cluster0.abc123.mongodb.net). 
+This will produce the hostnames of your shards 
+(_eg: cluster0-shard-00-00.abc123.mongodb.net, cluster0-shard-00-01.abc123.mongodb.net, and cluster0-shard-00-02.abc123.mongodb.net_).
+
+You will then need to create a tunnel for each shard.
+
+mongodb._tcp.circulationapp-dev.w8b693z.mongodb.net

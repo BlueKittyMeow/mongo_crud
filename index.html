@@ -127,78 +127,73 @@ try{
 }
 
 async function fetchIndividualRoom() {
-  try{
-  const roomNumber = document.getElementById('room-select').value;
-  const response = await fetch('/api/rooms/number/' + roomNumber);
-  const room = await response.json();
+  try {
+    const roomNumber = document.getElementById('room-select').value;
+    const response = await fetch('/api/rooms/number/' + roomNumber);
+    const room = await response.json();
 
-  const container = document.getElementById('individual-room');
-  container.innerHTML = ''; // Clear previous content
+    const container = document.getElementById('individual-room');
+    container.innerHTML = ''; // Clear previous content
 
-  // Create and populate the room details table
-  const table = document.createElement('table');
-  const headerRow = table.insertRow(-1);
-  headerRow.insertCell(0).innerText = 'Room Number';
-  headerRow.insertCell(1).innerText = 'Room Status';
-  headerRow.insertCell(2).innerText = 'Admin Notes';
-  headerRow.insertCell(3).innerText = 'Room Notes';
-  headerRow.insertCell(4).innerText = 'Assignees';
+    // Create and populate the room details table
+    const table = document.createElement('table');
+    const headerRow = table.insertRow(-1);
+    headerRow.insertCell(0).innerText = 'Room Number';
+    headerRow.insertCell(1).innerText = 'Room Status';
+    headerRow.insertCell(2).innerText = 'Admin Notes';
+    headerRow.insertCell(3).innerText = 'Room Notes';
+    headerRow.insertCell(4).innerText = 'Assignees';
 
-  const row = table.insertRow(-1);
-  row.insertCell(0).innerText = room.room_number;
-  row.insertCell(1).innerText = room.room_status;
-  row.insertCell(2).innerText = room.admin_notes;
-  row.insertCell(3).innerText = room.room_notes;
-  row.insertCell(4).innerText = room.students.map(student => student.pratt_id).join(', ');
+    const row = table.insertRow(-1);
+    row.insertCell(0).innerText = room.room_number;
+    row.insertCell(1).innerText = room.room_status;
+    row.insertCell(2).innerText = room.admin_notes;
+    row.insertCell(3).innerText = room.room_notes;
+    row.insertCell(4).innerText = (room.currentAssignees ? room.currentAssignees.join(', ') : '');
 
-  container.appendChild(table);
+    container.appendChild(table);
 
     // Fetch student data by their IDs
-    console.log('Room data:', room);
-    console.log('Student IDs:', room.assignees); // Use room.assignees instead of room.students.map(...)
-    const studentResponse = await fetch('/api/students', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ ids: room.assignees }) // Use room.assignees instead of room.students.map(...)
-    });
-    const students = await studentResponse.json();
+    if (room.currentAssignees && room.currentAssignees.length > 0) {
+      const studentIds = room.currentAssignees.join(',');
+      const studentResponse = await fetch(`/api/students/ids/${studentIds}`);
+      const students = await studentResponse.json();
 
-  const studentsContainer = document.createElement('div');
-  studentsContainer.classList.add('student-container');
-  studentsContainer.style.marginTop = '20px';
-  container.appendChild(studentsContainer);
+      const studentsContainer = document.createElement('div');
+      studentsContainer.classList.add('student-container');
+      studentsContainer.style.marginTop = '20px';
+      container.appendChild(studentsContainer);
 
-  for (const student of students) {
-    // Create a button to toggle student details
-    const button = document.createElement('button');
-    button.innerText = student.pratt_id;
-    button.style.marginRight = '10px';
-    button.style.marginBottom = '10px';
+      for (const student of students) {
+        // Create a button to toggle student details
+        const button = document.createElement('button');
+        button.innerText = student.pratt_id;
+        button.style.marginRight = '10px';
+        button.style.marginBottom = '10px';
 
-    // Create a div to hold student details
-    const studentDetails = document.createElement('div');
-    studentDetails.innerText = formatStudentData(student);
-    studentDetails.style.display = 'none';
+        // Create a div to hold student details
+        const studentDetails = document.createElement('div');
+        studentDetails.innerText = formatStudentData(student);
+        studentDetails.style.display = 'none';
 
-    button.addEventListener('click', () => {
-      studentDetails.style.display = studentDetails.style.display === 'none' ? 'block' : 'none';
-    });
+        button.addEventListener('click', () => {
+          studentDetails.style.display = studentDetails.style.display === 'none' ? 'block' : 'none';
+        });
 
-    const studentDetailsContainer = document.createElement('div');
-    studentDetailsContainer.classList.add('student-details-container');
+        const studentDetailsContainer = document.createElement('div');
+        studentDetailsContainer.classList.add('student-details-container');
 
-    studentDetailsContainer.appendChild(button);
-    studentDetailsContainer.appendChild(studentDetails);
+        studentDetailsContainer.appendChild(button);
+        studentDetailsContainer.appendChild(studentDetails);
 
-    studentsContainer.appendChild(studentDetailsContainer);
-  }
-
+        studentsContainer.appendChild(studentDetailsContainer);
+      }
+    }
   } catch (error) {
     console.error("Error fetching individual room data:", error);
   }
 }
+
 
 function formatStudentData(student) {
   return `Pratt ID: ${student.pratt_id}
@@ -216,12 +211,11 @@ async function openEditRoomPage(roomNumber) {
 
   const script = document.createElement('script');
   script.src = 'edit-room.js';
+  script.onload = async () => {
+    await window.showEditRoom(roomNumber);
+};
   document.body.appendChild(script);
 
-  setTimeout(async () => {
-  await window.showEditRoom(roomNumber);
-}, 100);
-}
 
 document.getElementById('addStudentButton').addEventListener('click', function() {
   fetch('add-student.html')
@@ -240,7 +234,7 @@ fetch('header.html')
       .then(data => {
           document.getElementById('header-container').innerHTML = data;
       });
-
+    }
 </script>
 </body>
 </html>
