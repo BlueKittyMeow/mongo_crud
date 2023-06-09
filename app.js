@@ -3,44 +3,47 @@ process.on('uncaughtException', function (err) {
   console.log("Node NOT Exiting...");
 });
 
-require('dotenv').config();
+require('dotenv').config(); // Loads environment variables from a .env file into process.env
 
 let port;  // Declare port as a global variable
 
-const express = require('express');
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const path = require('path');
-const { HttpsProxyAgent } = require('https-proxy-agent');
+const express = require('express'); // Express.js is a web application framework for Node.js
+const Agent = require('socks-proxy-agent'); // Import socks-proxy-agent for SOCKS proxy connection
+const { MongoClient } = require('mongodb'); // Import MongoClient from mongodb
+const path = require('path'); // Import path module which provides utilities for working with file and directory paths
 
 const app = express();
-app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.json()); // Parse incoming request bodies in a middleware before your handlers
+app.use(express.static(__dirname)); // Serve static files from the root directory
 
 // Get your QuotaGuard URL from the environment variable
 const QGTunnel = process.env.QUOTAGUARDSTATIC_URL;
-const agent = new HttpsProxyAgent(QGTunnel);
+const agent = new Agent(QGTunnel); // Create a SOCKS proxy agent with the QuotaGuard URL
 
 // Get the MongoDB URI from the environment variable
 const uri = process.env.MONGODB_URI;
+// Create a MongoDB client with the agent as an option
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  agent // Use the proxy agent in the MongoClient connection
 });
 
 async function startServer() {
   try {
-    await client.connect();
+    await client.connect(); // Connect to MongoDB using the client
     console.log("Connected to MongoDB");
     port = process.env.PORT || 3000;  // Use the PORT environment variable, or 3000 if PORT is not set
-    app.listen(port, () => {
+    app.listen(port, () => { // Start the server
       console.log('App is running on http://localhost:' + port);
     });
   } catch (err) {
-    console.error(err);
+    console.error(err); // Log any error during connection or server starting
   }
 }
 
-startServer();
+startServer(); // Call startServer to start the server
+
 
 // Helper function to get a collection
 function getCollection(name) {
