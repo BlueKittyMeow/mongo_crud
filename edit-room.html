@@ -14,32 +14,28 @@
             padding: 4px;
         }
 
-.hidden {
-  display: none;
-}
+        .hidden {
+            display: none;
+        }
 
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-</style>
-
-
-
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
     <div class="top-bar">
-      <h1 id="page-title">Room Details</h1>
-      <div>
-        <button id="edit-button">Edit Record</button>
-        <button id="cancel-button" class="hidden">Cancel</button>
-        <button onclick="window.location.href = 'index.html';">Home</button>
-      </div>
+        <h1 id="page-title">Room Details</h1>
+        <div>
+            <button id="edit-button">Edit Record</button>
+            <button id="cancel-button" class="hidden">Cancel</button>
+            <button onclick="window.location.href = 'index.html';">Home</button>
+        </div>
     </div>
     <div id="room-details">
-      <!-- Room details will be populated here -->
+        <!-- Room details will be populated here -->
     </div>
 
     <form id="edit-room-form" class="hidden">
@@ -53,8 +49,8 @@
         <input type="text" id="room_notes" name="room_notes">
         <button type="submit">Submit</button>
     </form>
-
+    <br>
+    <button id="end-of-semester-button">End of Semester Update</button>
     <script src="edit-room.js"></script>
-
 </body>
 </html>

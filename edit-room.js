@@ -1,3 +1,5 @@
+let roomNumber = null;
+
 async function fetchRoomData(roomNumber) {
     const response = await fetch('/api/rooms/number/' + roomNumber);
     const room = await response.json();
@@ -6,7 +8,7 @@ async function fetchRoomData(roomNumber) {
     document.getElementById('room_status').value = room.room_status;
     document.getElementById('admin_notes').value = room.admin_notes;
     document.getElementById('room_notes').value = room.room_notes;
-    
+
     return room;
 }
 
@@ -68,3 +70,16 @@ document.getElementById('edit-room-form').addEventListener('submit', async (even
 
 document.getElementById('edit-button').addEventListener('click', showEditForm);
 document.getElementById('cancel-button').addEventListener('click', showRoomDetails);
+
+document.getElementById('end-of-semester-button').addEventListener('click', function() {
+    window.location.href = `end-of-semester-update.html?room=${roomNumber}`;
+});
+
+// Get room number from URL
+const urlParams = new URLSearchParams(window.location.search);
+roomNumber = urlParams.get('room');
+
+// If a room number is specified, show its details
+if (roomNumber) {
+    showEditRoom(roomNumber);
+}
