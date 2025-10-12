@@ -1,6 +1,6 @@
-# Circulation App
+# Room Management
 
-Circulation App is a full-stack JavaScript application designed to facilitate the management of room assignments in a library or academic setting. This app keeps track of the rooms, their statuses, and the students assigned to each room. The app includes features to search for students, assign them to rooms, and monitor room statuses.
+This is a full-stack JavaScript application designed to facilitate the management of room assignments in a library or academic setting. This app keeps track of the rooms, their statuses, and the students assigned to each room. The app includes features to search for students, assign them to rooms, and monitor room statuses.
 
 ## Tech Stack
 
